@@ -6,31 +6,11 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 
-type Pokemon = {
-  id: string;
-  name: string;
-  weight: number;
-  height: number;
-  sprites: {
-    front_default: string;
-    front_shiny: string;
-    back_default: string;
-    back_shiny: string;
-  };
-};
-
-const GET_POKEMON = gql`
-  query GetPokemon($name: String!) {
-    getPokemon(name: $name) {
-      id
-      name
-      weight
-      height
-      sprites {
-        front_default
-        front_shiny
-        back_default
-        back_shiny
+const GET_BOOK = gql`
+  query GetBook($id: String!) {
+    Books {
+      book(id: $id) {
+        title
       }
     }
   }
@@ -38,15 +18,15 @@ const GET_POKEMON = gql`
 
 function App() {
   const [count, setCount] = useState(0);
-  const { loading, error, data } = useQuery(GET_POKEMON, {
-    variables: { name: "pikachu" },
+  const { loading, error, data } = useQuery(GET_BOOK, {
+    variables: { id: "11111" },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
   return (
     <>
-      <h1>{data?.getPokemon?.name}</h1>
+      <h1>{data.Books.book.title}</h1>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
